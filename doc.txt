@@ -86,3 +86,11 @@ modules
 	->user inputs command to retrieve specific password
 	->file_handler
 	->cipher
+	
+reqs:
+-non standard:
+	-pycryptodome
+-standard:
+	-secrets
+	-string
+	
