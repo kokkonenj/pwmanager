@@ -1,6 +1,7 @@
 import argparse
 from getpass import getpass
 from pw_generator import pw_generator
+from file_handler import list_services
 
 print("Welcome to your password manager.")
 master_password = getpass("Enter your master password: ")
@@ -19,7 +20,7 @@ while True:
     elif user_input == "R" or user_input == "r":
         print("Retrieve password")
     elif user_input == "L" or user_input == "l":
-        print("Listing password")
+        list_services()
     elif user_input == "G" or user_input == "g":
         print("Generate password")
     elif user_input == "A" or user_input == "a":
