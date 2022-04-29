@@ -1,0 +1,88 @@
+features:
+
+-generate safe passwords
+	-random
+	-unpredictable
+	-use all available characters
+
+-all passwords locked behind one master password
+	-should be GOOD password, passphrase
+
+-passwords are stored in files locally
+	-current plan
+	-SQL & web-server approach possible, more complex, more security concerns
+		-allows access on multiple devices over the internet
+		
+-TODO: user can add own passwords
+
+-------------------------------------------------------------------------------------
+
+design questions:
+
+-cipher? AES-128, AES-256 or other
+
+-hash function for generating key from password?
+	-need at least as much security (pre-images, collisions) as from the cipher
+
+-how to handle the master password
+	-hashing
+	-usage as key to cipher
+
+-how to handle the passwords
+	-files
+		-encrypt content only
+		-> read contents to memory -> decrypt&copy
+	-decryption
+		-only decrypt when needed
+		-important: does program take a stance on successful decryption?
+
+-security concerns regarding memory
+	-master password
+	-decrypted password(s)
+	-safely handling them, no memory leaks or buffer overflows or similar
+
+--------------------------------------------------------------------------------------
+
+modules
+
+-functionalities separated into modules
+
+-main program
+	-currently CLI, one action per execution
+		-needs to be changed
+	-GUI maybe?
+	-handles user input
+
+-cipher
+	-handles anything regarding encrypting and decrypting
+
+-file_handler
+	-handles files
+
+-pw_generator
+	-handles generating the passwords
+		-might need options to tune character sets
+
+-hasher (maybe)
+	-handle hashing
+	-might do this inside cipher, will see
+
+-utils (maybe)
+	-printing etc.
+
+------------------------------------------------------------------------------------
+
+"use cases" and program flow
+
+-user wants to generate new password
+	-user "logs in" with master password
+	->user inputs command to generate password
+	->password generator
+	->cipher
+	->file_handler
+
+-user wants to retrieve a password
+	-user "logs in" with master password
+	->user inputs command to retrieve specific password
+	->file_handler
+	->cipher
