@@ -1,5 +1,5 @@
 from getpass import getpass
-import pw_generator
+import pw_handler
 import utils
 
 
@@ -20,14 +20,16 @@ if __name__ == '__main__':
             break
 
         elif user_input == "R" or user_input == "r":
-            print("Retrieve password")
+            title = input("Enter title of the password: ")
+            pw = pw_handler.retrieve_password(title, master_password)
+            print("Retrieved: " + pw)
 
         elif user_input == "L" or user_input == "l":
             utils.list_services()
 
         elif user_input == "G" or user_input == "g":
             service_name = input("Enter title for the password: ")
-            pw_generator.generate_new_password(service_name, master_password)
+            pw_handler.generate_new_password(service_name, master_password)
 
         elif user_input == "A" or user_input == "a":
             print("Add password")

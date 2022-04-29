@@ -1,16 +1,18 @@
+import utils
+import cipher
+import file_handler
+
 def pw_generator(length=16):
     # TODO: Option to disable special characters for ancient websites
     import string
     import secrets
     characters = string.ascii_letters + string.digits + string.punctuation
     password = ''.join(secrets.choice(characters) for i in range(int(length)))
+    print("Generated password " + password)
     return password
 
 
 def generate_new_password(title, mpw):
-    import utils
-    import cipher
-    import file_handler
 
     filename = title + ".pw"
     while True:
@@ -33,3 +35,19 @@ def generate_new_password(title, mpw):
     data = salt.hex() + "\n" + iv.hex() + "\n" + e_pw.hex()
     file_handler.write_to_file(filename, data)
     print("Generated new password for " + title)
+
+
+def retrieve_password(title, mpw):
+
+    filename = title + ".pw"
+    while True:
+        if utils.file_exists(filename):
+            break
+        else:
+            print("Didn't find password for that title.")
+            title = input("Please enter title again: ")
+            filename = title + ".pw"
+    salt, iv, e_pw = file_handler.read_file(filename)
+    key, salt = cipher.derive_key(mpw, bytes.fromhex(salt))
+    pw = cipher.decrypt(key, bytes.fromhex(iv), bytes.fromhex(e_pw))
+    return pw
