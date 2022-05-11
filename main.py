@@ -1,4 +1,6 @@
 from getpass import getpass
+
+import file_handler
 import pw_handler
 import utils
 
@@ -11,10 +13,12 @@ if __name__ == '__main__':
           "[L,l]ist all password titles you have saved, \n"
           "[G,g]enerate a new password, \n"
           "[A,a]dd existing password, \n"
+          "[U,u]pdate existing password, \n"
+          "[D,d]elete a password, \n"
           "[Q,q]uit.")
 
     while True:
-        user_input = input("[r,l,g,a,q]: ")
+        user_input = input("[r,l,g,a,u,d,q]: ")
         if user_input == "Q" or user_input == "q":
             print("Exiting..")
             break
@@ -33,12 +37,23 @@ if __name__ == '__main__':
 
         elif user_input == "A" or user_input == "a":
             title = input("Enter title for the password: ")
-            pw = getpass("Enter the password: ")
-            check = getpass("Enter the password again: ")
-            if pw != check:
-                print("The passwords do not match.")
+            if utils.file_exists(title+".pw"):
+                print("Password for that title already exists")
             else:
-                pw_handler.add_password(title, pw, master_password)
+                pw = getpass("Enter the password: ")
+                check = getpass("Enter the password again: ")
+                if pw != check:
+                    print("The passwords do not match.")
+                else:
+                    pw_handler.add_password(title, pw, master_password)
+
+        elif user_input == "U" or user_input == "u":
+            title = input("Enter title for the password to be updated: ")
+            pw_handler.update_password(title, master_password)
+
+        elif user_input == "D" or user_input == "d":
+            title = input("Enter title for the password to be deleted: ")
+            pw_handler.delete_password(title)
 
         else:
-            user_input = input("[r,l,g,a,q]: ")
+            user_input = input("[r,l,g,a,u,d,q]: ")

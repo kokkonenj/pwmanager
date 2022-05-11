@@ -12,9 +12,9 @@ def pw_generator(length=16):
     return password
 
 
-def generate_new_password(title, mpw):
+def generate_new_password(title, mpw, check=True):
     filename = title + ".pw"
-    while True:
+    while check:
         if utils.file_exists(filename):
             print("Password for this title already exists.")
             title = input("Please enter new title: ")
@@ -57,3 +57,41 @@ def retrieve_password(title, mpw):
     key, salt = cipher.derive_key(mpw, bytes.fromhex(salt))
     pw = cipher.decrypt(key, bytes.fromhex(iv), bytes.fromhex(e_pw))
     return pw
+
+
+def update_password(title, mpw):
+    filename = title + ".pw"
+    if utils.file_exists(filename):
+        confirm = input(f"Password {title} found. Are you sure you want to update? [y/n]: ")
+        while True:
+            if confirm == "y" or confirm == "Y":
+                generate_new_password(title, mpw, False)
+                return
+            elif confirm == "n" or confirm == "N":
+                print("Cancelled.")
+                return
+            else:
+                confirm = input("[y/n]: ")
+    else:
+        print(f"Password {title} not found.")
+        return
+
+
+def delete_password(title):
+    import os
+    filename = title + ".pw"
+    if utils.file_exists(filename):
+        confirm = input(f"Password {title} found. Are you sure you want to delete? [y/n]: ")
+        while True:
+            if confirm == "y" or confirm == "Y":
+                os.remove(filename)
+                print(f"Deleted password for {title}")
+                return
+            elif confirm == "n" or confirm == "N":
+                print("Cancelled.")
+                return
+            else:
+                confirm = input("[y/n]: ")
+    else:
+        print(f"Password {title} not found.")
+        return
