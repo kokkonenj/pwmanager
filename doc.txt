@@ -1,19 +1,12 @@
 features:
 
 -generate safe passwords
-	-random
-	-unpredictable
-	-use all available characters
-
--all passwords locked behind one master password
-	-should be GOOD password, passphrase
-
--passwords are stored in files locally
-	-current plan
-	-SQL & web-server approach possible, more complex, more security concerns
-		-allows access on multiple devices over the internet
-		
--TODO: user can add own passwords
+-encrypt and save passwords locally
+-retrieve and decrypt passwords
+-copy to clipboard automatically (missing)
+-add existing password (missing)
+-edit & delete passwords (missing)
+-save master password so it can be verified at start (maybe, missing)
 
 -------------------------------------------------------------------------------------
 

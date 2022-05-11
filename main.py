@@ -28,11 +28,17 @@ if __name__ == '__main__':
             utils.list_services()
 
         elif user_input == "G" or user_input == "g":
-            service_name = input("Enter title for the password: ")
-            pw_handler.generate_new_password(service_name, master_password)
+            title = input("Enter title for the password: ")
+            pw_handler.generate_new_password(title, master_password)
 
         elif user_input == "A" or user_input == "a":
-            print("Add password")
+            title = input("Enter title for the password: ")
+            pw = getpass("Enter the password: ")
+            check = getpass("Enter the password again: ")
+            if pw != check:
+                print("The passwords do not match.")
+            else:
+                pw_handler.add_password(title, pw, master_password)
 
         else:
             user_input = input("[r,l,g,a,q]: ")

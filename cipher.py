@@ -30,5 +30,8 @@ def decrypt(key, iv, encrypted):
     iv_int = int(binascii.hexlify(iv), 16)
     ctr = Counter.new(AES.block_size*8, initial_value=iv_int)
     aes = AES.new(key, AES.MODE_CTR, counter=ctr)
-    pw = aes.decrypt(encrypted).decode('utf-8')
+    try:
+        pw = aes.decrypt(encrypted).decode('utf-8')
+    except:
+        return "Decryption failed. Enter master password again."
     return pw

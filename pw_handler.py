@@ -2,8 +2,8 @@ import utils
 import cipher
 import file_handler
 
+
 def pw_generator(length=16):
-    # TODO: Option to disable special characters for ancient websites
     import string
     import secrets
     characters = string.ascii_letters + string.digits + string.punctuation
@@ -13,7 +13,6 @@ def pw_generator(length=16):
 
 
 def generate_new_password(title, mpw):
-
     filename = title + ".pw"
     while True:
         if utils.file_exists(filename):
@@ -22,7 +21,7 @@ def generate_new_password(title, mpw):
             filename = title + ".pw"
         else:
             break
-    print("Please enter length for the password. Minimum is 8, recommended is at least 16 and maximum length is 64.")
+    print("Please enter length for the password. Minimum is 8, recommended is at least 12 and maximum length is 64.")
     length = 0
     while length < 8 or length > 64:
         try:
@@ -37,8 +36,15 @@ def generate_new_password(title, mpw):
     print("Generated new password for " + title)
 
 
-def retrieve_password(title, mpw):
+def add_password(title, pw, mpw):
+    key, salt = cipher.derive_key(mpw)
+    iv, e_pw = cipher.encrypt(key, pw)
+    data = salt.hex() + "\n" + iv.hex() + "\n" + e_pw.hex()
+    file_handler.write_to_file(title+".pw", data)
+    print("Saved password for " + title)
 
+
+def retrieve_password(title, mpw):
     filename = title + ".pw"
     while True:
         if utils.file_exists(filename):
