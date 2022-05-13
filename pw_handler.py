@@ -14,7 +14,6 @@ def pw_generator(length=16):
                 and any(c.isdigit() for c in password)          # digit
                 and any(not c.isalnum() for c in password)):    # special character
             break
-    print("Generated password " + password)
     return password
 
 
@@ -39,7 +38,6 @@ def generate_new_password(title, mpw, check=True):
     iv, e_pw = cipher.encrypt(key, new_pw)
     data = salt.hex() + "\n" + iv.hex() + "\n" + e_pw.hex()
     file_handler.write_to_file(filename, data)
-    # print("Generated new password for " + title)
 
 
 def add_password(title, pw, mpw):
