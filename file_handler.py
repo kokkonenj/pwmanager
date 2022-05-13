@@ -1,7 +1,3 @@
-import utils
-import os
-
-
 def write_to_file(filename, data):
     file = open(filename, "w")
     file.write(data)
