@@ -3,6 +3,7 @@ from getpass import getpass
 import file_handler
 import pw_handler
 import utils
+import pyperclip
 
 
 if __name__ == '__main__':
@@ -26,7 +27,16 @@ if __name__ == '__main__':
         elif user_input == "R" or user_input == "r":
             title = input("Enter title of the password: ")
             pw = pw_handler.retrieve_password(title, master_password)
-            print("Retrieved: " + pw)
+            try:
+                pyperclip.copy(pw)
+                print(f"Password for {title} copied to clipboard.")
+            except:
+                confirm = input("Could not copy password to clipboard. Do you want to show password? [y/n]: ")
+                while True:
+                    if confirm == "y" or confirm == "Y":
+                        print(f"Password for {title}: {pw}")
+                    else:
+                        break
 
         elif user_input == "L" or user_input == "l":
             utils.list_services()

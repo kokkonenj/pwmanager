@@ -7,7 +7,13 @@ def pw_generator(length=16):
     import string
     import secrets
     characters = string.ascii_letters + string.digits + string.punctuation
-    password = ''.join(secrets.choice(characters) for i in range(int(length)))
+    while True:
+        password = ''.join(secrets.choice(characters) for i in range(int(length)))
+        if (any(c.islower() for c in password)                  # lower case letter
+                and any(c.isupper() for c in password)          # upper case letter
+                and any(c.isdigit() for c in password)          # digit
+                and any(not c.isalnum() for c in password)):    # special character
+            break
     print("Generated password " + password)
     return password
 
@@ -33,7 +39,7 @@ def generate_new_password(title, mpw, check=True):
     iv, e_pw = cipher.encrypt(key, new_pw)
     data = salt.hex() + "\n" + iv.hex() + "\n" + e_pw.hex()
     file_handler.write_to_file(filename, data)
-    print("Generated new password for " + title)
+    # print("Generated new password for " + title)
 
 
 def add_password(title, pw, mpw):
